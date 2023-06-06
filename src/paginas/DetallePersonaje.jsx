@@ -1,53 +1,109 @@
-import {get} from "../utilidades/clienteAPI.js"
+//import { get } from "../utilidades/clienteAPI.js";
 import { useState, useEffect } from "react";
-import {useParams} from "react-router-dom"
+import { useNavigate, Navigate, useParams } from "react-router-dom";
+import "./DetallePersonaje.css";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { Link } from "react-router-dom";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { db } from "../firebaseConfig/firebase.js";
 
-import "./DetallePersonaje.css"
+export const DetallePersonaje = () => {
+  const mySwal = withReactContent(Swal);
 
-export const DetallePersonaje=()=>{
-    const [personaje,setPersonaje] = useState(null)
+  const navigate = useNavigate();
 
-    const {personajeId} = useParams()
+  const [personaje, setPersonaje] = useState();
 
-    useEffect(()=>{
-       get(`/${personajeId}`).then((data)=>{
-            setPersonaje(data);
-        }) 
-        },[personajeId])
+  const { personajeId } = useParams();
 
-        if(!personaje){
-            return null;
-        }
-        const imgURL= `${personaje.image}`
-        return(
-<div className="contenedorDetalle">
- <img className="col" src={imgURL} alt={personaje.name} />
-<div className="personajeDetalle col">
-<p className="item">
-    <strong>Nombre: </strong>
-    {personaje.name}
-</p>
-<p >
-    <strong>Origen: </strong>
-    {personaje.origin.name}
-</p>
+  const personajeCollection = collection(db, "RaM");
 
-<p >
-    <strong>Genero: </strong>
-    {personaje.gender}
-</p>
+  async function buscarDocumento() {
+    const data = await getDocs(personajeCollection);
+    console.log("Lei coleccion en detalle");
 
-<p >
-    <strong>Ubicacion: </strong>
-    {personaje.location.name}
-</p>
+    data.forEach((temp) => {
+      if (temp.id == personajeId) {
+        console.log("El id coincide: " + temp.id + " y " + personajeId);
+        setPersonaje(temp.data());
+      }
+    });
+  }
 
+  // const getPersonajes = async () => {
+  //   const data = await getDocs(personajeCollection);
+  //   setPersonaje(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  // };
 
-</div>
-</div>
+  const deletePersonaje = async (id) => {
+    const personajeDoc = doc(db, "RaM", String(id));
+    await deleteDoc(personajeDoc);
+    console.log("Borre el id: " + id);
+    navigate("/");
+  };
 
-    
+  useEffect(() => {
+    buscarDocumento();
+  }, [personajeId]);
 
-        )
+  if (!personaje) {
+    return null;
+  }
+  const imgURL = `${personaje.image}`;
 
-}
+  const confirmDelete = (id) => {
+    Swal.fire({
+      title: "Estas Seguro/a?",
+      text: "No podes revertir esta Accion!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Deseo Borrarlo!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletePersonaje(id);
+        Swal.fire("Borrado!", "El Personaje ha sido Borrado/a.", "success");
+      }
+    });
+  };
+
+  return (
+    <div className="contenedorDetalle">
+      <img className="col" src={imgURL} alt={personaje.name} />
+      <div className="personajeDetalle col">
+        <p className="item">
+          <strong>Nombre: </strong>
+          {personaje.name}
+        </p>
+        <p>
+          <strong>Origen: </strong>
+          {personaje.origin}
+        </p>
+
+        <p>
+          <strong>Genero: </strong>
+          {personaje.gender}
+        </p>
+
+        <p>
+          <strong>Ubicacion: </strong>
+          {personaje.location}
+        </p>
+
+        <div className="container-fluid col-md3">
+          <Link to={`/editar/${personajeId}`} className="btn btn-dark">
+            <i className="fa-sharp fa-solid fa-pencil"></i>
+          </Link>
+          <button
+            className="btn btn-danger"
+            onClick={() => confirmDelete(personajeId)}
+          >
+            <i className="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
