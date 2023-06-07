@@ -14,7 +14,7 @@ import { db } from "../../firebaseConfig/firebase";
 
 export const GrillaPersonajes = () => {
   const [personajes, setPersonajes] = useState([]);
-  const [cabecera, setCabecera] = useState([]);
+  // const [cabecera, setCabecera] = useState([]);
   const [personajesAPI, setPersonajesAPI] = useState([]);
   // const [cargar, setCargar] = useState(true);
 
@@ -42,7 +42,7 @@ export const GrillaPersonajes = () => {
   const crearDato = async () => {
     await get("").then((data) => {
       setPersonajesAPI(data.results);
-      setCabecera(data.info);
+      // setCabecera(data.info);
 
       console.log(data.results);
       console.log(data.info);

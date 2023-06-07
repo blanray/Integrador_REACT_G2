@@ -9,7 +9,7 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig/firebase.js";
 
 export const DetallePersonaje = () => {
-  const mySwal = withReactContent(Swal);
+  // const mySwal = withReactContent(Swal);
 
   const navigate = useNavigate();
 
