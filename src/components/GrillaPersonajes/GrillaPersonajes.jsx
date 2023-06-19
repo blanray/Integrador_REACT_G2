@@ -25,7 +25,7 @@ export const GrillaPersonajes = () => {
     //  setCargar(false);
     llenarColeccion();
 
-    if (personajes.length == 0) {
+    if (personajes.length === 0) {
       console.log("La coleccion estaba vacia");
       //setCargar(true);
       crearDato();
@@ -50,6 +50,7 @@ export const GrillaPersonajes = () => {
   };
 
   const subirPersonaje = async (misPersonas) => {
+    console.log("voy a subir un personaje")
     await setDoc(doc(db, "RaM", String(misPersonas.id)), {
       name: misPersonas.name,
       origin: misPersonas.origin.name,
