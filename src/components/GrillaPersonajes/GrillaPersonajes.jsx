@@ -20,24 +20,15 @@ export const GrillaPersonajes = () => {
 
   const personajesCollection = collection(db, "RaM");
 
-  useEffect(() => {
-    //Primero veo la coleccion a ver si tiene algo
-    //  setCargar(false);
-    llenarColeccion();
+  const llenarColeccion = async () => {
+    const data = await getDocs(personajesCollection);
+    setPersonajes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
-    if (personajes.length === 0) {
-      console.log("La coleccion estaba vacia");
-      //setCargar(true);
-      crearDato();
+    console.log("Lei coleccion en principal");
+    console.log("El largo de la coleccion leida es: " + personajes.length);
 
-      personajesAPI.forEach((misPersonas) => {
-        subirPersonaje(misPersonas);
-      });
-      //      llenarColeccion();
-    }
-
-    //llenarPersonajes();
-  }, []);
+    return;
+  };
 
   const crearDato = async () => {
     await get("").then((data) => {
@@ -49,8 +40,30 @@ export const GrillaPersonajes = () => {
     });
   };
 
+  useEffect(() => {
+    //Primero veo la coleccion a ver si tiene algo
+    //  setCargar(false);
+    llenarColeccion();
+
+    if (personajes.length === 0) {
+      console.log("La coleccion estaba vacia");
+      //setCargar(true);
+      crearDato();
+
+      console.log("Lei la API con: " + personajesAPI.length + " personajes");
+
+      personajesAPI.forEach((misPersonas) => {
+        subirPersonaje(misPersonas);
+      });
+      //      llenarColeccion();
+    }
+
+    //llenarPersonajes();
+  }, []);
+
+
   const subirPersonaje = async (misPersonas) => {
-    console.log("voy a subir un personaje")
+
     await setDoc(doc(db, "RaM", String(misPersonas.id)), {
       name: misPersonas.name,
       origin: misPersonas.origin.name,
@@ -68,16 +81,6 @@ export const GrillaPersonajes = () => {
   };
 
   // async function vaciarColeccion() {}
-
-  const llenarColeccion = async () => {
-    const data = await getDocs(personajesCollection);
-    setPersonajes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-
-    console.log("Lei coleccion en principal");
-    console.log("El largo de la coleccion leida es: " + personajes.length);
-
-    return;
-  };
 
   // async function llenarPersonajes() {
 

@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from "sweetalert2";
 
 const Navbar = ({ brand }) => {
   return (
@@ -7,6 +8,14 @@ const Navbar = ({ brand }) => {
         <a className="navbar-brand text-uppercase" href="/">
           {brand}
         </a>
+        <button
+        className="btn btn-info"
+        onClick={() =>
+          Swal.fire("Info del Grupo 2", "Integrantes XXXXXXX", "success")
+        }
+      >
+        <i className="fa-solid fa-info"> - Grupo 2</i>
+      </button>
       </div>
     </nav>
   );
