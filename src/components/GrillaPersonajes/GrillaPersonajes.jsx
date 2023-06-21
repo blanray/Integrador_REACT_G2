@@ -11,8 +11,10 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "../../firebaseConfig/firebase";
+import { Spin } from "../../componentes/spinner";
 
 export const GrillaPersonajes = () => {
+  const [loading, setLoading] = useState(true);
   const [personajes, setPersonajes] = useState([]);
   // const [cabecera, setCabecera] = useState([]);
   const [personajesAPI, setPersonajesAPI] = useState([]);
@@ -22,10 +24,16 @@ export const GrillaPersonajes = () => {
 
   const llenarColeccion = async () => {
     const data = await getDocs(personajesCollection);
-    setPersonajes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    if (data.length !== 0) {
+      setLoading(false);
 
-    console.log("Lei coleccion en principal");
-    console.log("El largo de la coleccion leida es: " + personajes.length);
+      setPersonajes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      console.log("Lei coleccion en principal");
+      console.log("El largo de la coleccion leida es: " + personajes.length);
+    } else {
+      setLoading(true);
+      console.log('Loading en true')
+    }
   };
 
   const crearDato = async () => {
@@ -41,7 +49,9 @@ export const GrillaPersonajes = () => {
   useEffect(() => {
     //Primero veo la coleccion a ver si tiene algo
     //  setCargar(false);
-    llenarColeccion();
+    setTimeout(() => {
+      llenarColeccion();
+    }, 5000);
 
     if (personajes.length === 0) {
       console.log("La coleccion estaba vacia");
@@ -53,6 +63,7 @@ export const GrillaPersonajes = () => {
       personajesAPI.forEach((misPersonas) => {
         subirPersonaje(misPersonas);
       });
+
       //      llenarColeccion();
     }
 
@@ -134,11 +145,19 @@ export const GrillaPersonajes = () => {
   //   }
   // }
 
-  return (
-    <ul className="personajesGrid">
-      {personajes.map((personaje) => (
-        <PersonajesCard key={personaje.id} personaje={personaje} />
-      ))}
-    </ul>
-  );
+  if (loading) {
+    return (
+      <>
+        <Spin />
+      </>
+    )
+  } else {
+    return (
+      <ul className="personajesGrid">
+        {personajes.map((personaje) => (
+          <PersonajesCard key={personaje.id} personaje={personaje} />
+        ))}
+      </ul>
+    );
+  }
 };
