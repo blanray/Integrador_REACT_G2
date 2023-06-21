@@ -26,8 +26,6 @@ export const GrillaPersonajes = () => {
 
     console.log("Lei coleccion en principal");
     console.log("El largo de la coleccion leida es: " + personajes.length);
-
-    return;
   };
 
   const crearDato = async () => {
