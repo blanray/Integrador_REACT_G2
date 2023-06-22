@@ -2,10 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Navigate, useParams } from "react-router-dom";
 import { PersonajesCard } from "../components/PersonajesCard/PersonajesCard.jsx";
 import "./BuscarPersonaje.css";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { db } from "../firebaseConfig/firebase";
 
@@ -25,16 +22,14 @@ export const BuscarPersonaje = () => {
   console.log("El texto buscado es: " + textoBuscar);
 
   async function buscarDocumentos() {
-
     const miColeccion = await getDocs(personajeCollection);
 
-   
-    const miColeccionFiltrada = miColeccion.docs.filter(personajeFiltrado =>
+    const miColeccionFiltrada = miColeccion.docs.filter((personajeFiltrado) =>
       personajeFiltrado
-      .data()
-      .name.toString()
-      .toLowerCase()
-      .includes(textoBuscar.toString().toLowerCase())
+        .data()
+        .name.toString()
+        .toLowerCase()
+        .includes(textoBuscar.toString().toLowerCase())
     );
 
     setPersonajes(
@@ -48,12 +43,18 @@ export const BuscarPersonaje = () => {
 
 
 return (
+<div>
+<h1 class="fs-4">Cantidad de resultados para la búsqueda: 
+  
+<small class="text-body-primary fs-2"> {personajes.length} </small>
 
- <ul className="personajesGrid">
+</h1>
+
+  <ul className="personajesGrid">
     {personajes.map((personaje) => (
       <PersonajesCard key={personaje.id} personaje={personaje} />
     ))}
   </ul>
-);
-
+  </div>
+)
 };
