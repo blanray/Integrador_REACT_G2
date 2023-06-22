@@ -51,7 +51,7 @@ export const GrillaPersonajes = () => {
     //  setCargar(false);
     setTimeout(() => {
       llenarColeccion();
-    }, 5000);
+    }, 1000);
 
     if (personajes.length === 0) {
       console.log("La coleccion estaba vacia");

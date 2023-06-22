@@ -11,7 +11,7 @@ const Navbar = ({ brand }) => {
         <button
         className="btn btn-info"
         onClick={() =>
-          Swal.fire("Info del Grupo 2", "Integrantes XXXXXXX", "success")
+          Swal.fire("Info del Grupo 2", "Tobias Marcelo Romero Gómez - Diego Alejandro Erazo - Roberto Rossa - Nelly Maria Anampa Delgado - Candela Rivero - Evelyn Eduards - Pablo Blanco", "success")
         }
       >
         <i className="fa-solid fa-info"> - Grupo 2</i>

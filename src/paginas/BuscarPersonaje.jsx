@@ -2,9 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate, Navigate, useParams } from "react-router-dom";
 import { PersonajesCard } from "../components/PersonajesCard/PersonajesCard.jsx";
 import "./BuscarPersonaje.css";
-import { collection, getDocs, doc, setDoc, where, query } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  where,
+  query,
+} from "firebase/firestore";
 import { db } from "../firebaseConfig/firebase";
-
 
 export const BuscarPersonaje = () => {
   const navigate = useNavigate();
@@ -22,17 +28,36 @@ export const BuscarPersonaje = () => {
   console.log("El texto buscado es: " + textoBuscar);
 
   async function buscarDocumentos() {
+    //const miFiltro = query(personajeCollection, where('name', '==', textoBuscar))
 
-    const miFiltro = query(personajeCollection, where('name', '==', textoBuscar))
+    const miColeccion = await getDocs(personajeCollection);
 
-    const data = await getDocs(miFiltro);
-    setPersonajes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+   
+    const miColeccionFiltrada = miColeccion.docs.filter(personajeFiltrado =>
+      personajeFiltrado
+      .data()
+      .name.toString()
+      .toLowerCase()
+      .includes(textoBuscar.toString().toLowerCase())
+    );
 
-    console.log("Lei coleccion filtrada en buscador. El Largo es: " + personajes.length);
+    setPersonajes(
+      miColeccionFiltrada.map((doc) => ({ ...doc.data(), id: doc.id }))
+    );
+  }
+
+  function filtrarDocumentos(miTexto) {
+    console.log(
+      "Lei coleccion filtrada en buscador. El Largo es: " + personajes.length
+    );
+
   }
 
   useEffect(() => {
     buscarDocumentos();
+    setTimeout(() => {
+      filtrarDocumentos(textoBuscar);
+    }, 3000);
   }, [textoBuscar]);
 
   return (
