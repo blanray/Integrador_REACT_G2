@@ -5,15 +5,16 @@ import "./BuscarPersonaje.css";
 import { collection, getDocs } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { db } from "../firebaseConfig/firebase";
+import Buttons from "../components/button/Button.jsx";
 
 export const BuscarPersonaje = () => {
   const navigate = useNavigate();
 
-  const [miTexto, setMiTexto] = useState();
+  // const [miTexto, setMiTexto] = useState();
 
   const [personajes, setPersonajes] = useState([]);
 
-  const personajesCollection = collection(db, "RaM");
+  // const personajesCollection = collection(db, "RaM");
 
   const { textoBuscar } = useParams();
 
@@ -42,19 +43,23 @@ export const BuscarPersonaje = () => {
   }, [textoBuscar]);
 
 
-return (
-<div>
-<h1 class="fs-4">Cantidad de resultados para la búsqueda: 
-  
-<small class="text-body-primary fs-2"> {personajes.length} </small>
+  return (
+    <div>
+      <h1 class="fs-4">Cantidad de resultados para la búsqueda:
 
-</h1>
+        <small class="text-body-primary fs-2"> {personajes.length} </small>
 
-  <ul className="personajesGrid">
-    {personajes.map((personaje) => (
-      <PersonajesCard key={personaje.id} personaje={personaje} />
-    ))}
-  </ul>
-  </div>
-)
+      </h1>
+      <ul className="personajesGrid">
+        {personajes.map((personaje) => (
+          <PersonajesCard key={personaje.id} personaje={personaje} />
+        ))}
+      </ul>
+      <div className="box-button"><Buttons
+        bsPrefix={'css-button-3d--sky'}
+        text={'Volver'}
+        size={'sm'}
+        onClick={() => navigate(`/`)} /></div>
+    </div>
+  )
 };

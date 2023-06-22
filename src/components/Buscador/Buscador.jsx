@@ -6,10 +6,9 @@ export const Buscador = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     // e.preventDefault(); 
-
-    navigate(`/buscar/${searchText}`);
+    (searchText === '') ? alert(`ingrege un valor`) : navigate(`/buscar/${searchText}`);
     console.log("El texto a buscar es: " + searchText)
   };
 
@@ -17,7 +16,7 @@ export const Buscador = () => {
     <form className="buscadorContainer" onSubmit={handleSubmit}>
       {" "}
       <div className="buscadorBox">
-        <span>Texto a buscar en Nombre: </span>
+        <span>Nombre del personaje:  </span>
         <input
           value={searchText}
           onChange={(e) =>
@@ -26,9 +25,11 @@ export const Buscador = () => {
           type="text"
           className="buscadorInput"
         />
-        <button type="submit" className="buscadorButton">
-          <i className="fa-solid fa-binoculars"></i>
-        </button>
+        <div className="box-buscador">
+          <button type="submit" className="buscadorButton">
+            <i className="fa-solid fa-binoculars"></i>
+          </button>
+        </div>
       </div>
     </form>
   );
