@@ -15,7 +15,7 @@ const Navbar = ({ brand }) => {
             Swal.fire(
               "Info del Grupo 2",
               "Tobias Marcelo Romero Gómez - Diego Alejandro Erazo - Roberto Rossa - Nelly Maria Anampa Delgado - Candela Rivero - Evelyn Eduards - Pablo Blanco",
-              "success"
+              "info"
             )
           }
         >

@@ -8,7 +8,7 @@ export const Buscador = () => {
 
   const handleSubmit = () => {
     // e.preventDefault(); 
-    (searchText === '') ? alert(`ingrege un valor`) : navigate(`/buscar/${searchText}`);
+    (searchText === '') ? alert(`Ingrege un criterio de busqueda. No puede estar vacio.`) : navigate(`/buscar/${searchText}`);
     console.log("El texto a buscar es: " + searchText)
   };
 
