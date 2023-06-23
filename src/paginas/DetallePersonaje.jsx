@@ -1,15 +1,12 @@
-//import { get } from "../utilidades/clienteAPI.js";
 import { useState, useEffect } from "react";
 import { useNavigate, Navigate, useParams } from "react-router-dom";
 import "./DetallePersonaje.css";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import { Link } from "react-router-dom";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig/firebase.js";
 
 export const DetallePersonaje = () => {
-  const mySwal = withReactContent(Swal);
 
   const navigate = useNavigate();
 
@@ -30,11 +27,6 @@ export const DetallePersonaje = () => {
       }
     });
   }
-
-  // const getPersonajes = async () => {
-  //   const data = await getDocs(personajeCollection);
-  //   setPersonaje(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  // };
 
   const deletePersonaje = async (id) => {
     const personajeDoc = doc(db, "RaM", String(id));
