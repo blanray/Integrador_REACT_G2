@@ -16,7 +16,7 @@ La APP contiene: JS, React, Bootstrap, Font Awesome, Sweet Alert, Firebase.
 Integrantes: Tobias Marcelo Romero Gómez - Diego Alejandro Erazo - Roberto Rossa - Nelly Maria Anampa Delgado - Candela Rivero - Evelyn Eduards - Pablo Blanco
 
 URL de Github: https://github.com/blanray/Integrador_REACT_G2.git
-URL de Netlify: 
+URL de Netlify: https://nimble-gaufre-255314.netlify.app/
 
 
 
